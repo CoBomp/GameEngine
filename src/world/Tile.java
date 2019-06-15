@@ -3,14 +3,17 @@ package world;
 public class Tile {
 	
 	public static Tile tiles[] = new Tile[16];
+	private static byte not = 0;
 	
-	public static Tile test = new Tile((byte) 0, "test");
+	public static Tile test = new Tile("test");
+	public static Tile checker = new Tile("checker");
 	
 	private byte id;
 	private String texture;
 	
-	public Tile(byte id, String texture) {
-		this.id = id;
+	public Tile(String texture) {
+		this.id = not;
+		not++;
 		this.texture = texture;
 		
 		if(tiles[id] != null) {

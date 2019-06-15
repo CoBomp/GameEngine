@@ -13,6 +13,7 @@ import render.Shader;
 import render.Texture;
 import world.Tile;
 import world.TileRenderer;
+import world.World;
 
 
 public class Component {
@@ -64,6 +65,9 @@ public class Component {
 //		
 //		Texture tex = new Texture("test.png");
 		
+		World world = new World();
+		world.setTile(Tile.checker, 3, 2);
+		
 		Shader shader = new Shader("shader");
 		Matrix4f scale = new Matrix4f().translate(new Vector3f(0, 0, 0)).scale(16);
 		
@@ -99,6 +103,21 @@ public class Component {
 					glfwSetWindowShouldClose(win.getWindow(), true);
 				}
 				
+				if(win.getInput().isKeyDown(GLFW_KEY_Q)) {
+					camera.getPosition().sub(new Vector3f(-1, 0, 0));
+				}
+				if(win.getInput().isKeyDown(GLFW_KEY_D)) {
+					camera.getPosition().sub(new Vector3f(1, 0, 0));
+				}
+				if(win.getInput().isKeyDown(GLFW_KEY_Z)) {
+					camera.getPosition().sub(new Vector3f(0, 1, 0));
+				}
+				if(win.getInput().isKeyDown(GLFW_KEY_S)) {
+					camera.getPosition().sub(new Vector3f(0, -1, 0));
+				}
+				
+				world.correctCamera(camera, win);
+				
 				win.update();
 				if(frame_time >= 1.0) {
 					frame_time = 0;
@@ -110,10 +129,7 @@ public class Component {
 			if(can_render) {
 				glClear(GL_COLOR_BUFFER_BIT);
 				
-				for(int i = 0; i< 8; i++) {
-					//tiles.renderTile(Tile.test, i, 0, shader, scale, camera);
-					tiles.renderTile((byte)0, i, 0, shader, scale, camera);
-				}
+				world.render(tiles, shader, camera, win);
 				
 				win.swapBuffers();
 				frames++;

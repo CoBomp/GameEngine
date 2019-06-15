@@ -54,22 +54,5 @@ public class TileRenderer {
 		
 		tileModel.render();
 	}
-	
-	public void renderTile(byte id, int x, int y, Shader shader, Matrix4f world, Camera cam) {
-		shader.bind();
-		Tile tile = Tile.tiles[id];
-		if (tileTextures.containsKey(tile.getTexture())) tileTextures.get(tile.getTexture()).bind(0);
-		
-		Matrix4f tile_pos = new Matrix4f().translate(new Vector3f(x * 2, y * 2, 0));
-		Matrix4f target = new Matrix4f();
-		
-		cam.getProjection().mul(world, target);
-		target.mul(tile_pos);
-		
-		shader.setUniform("sampler", 0);
-		shader.setUniform("projection", target);
-		
-		tileModel.render();
-	}
 
 }
