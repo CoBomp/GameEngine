@@ -5,8 +5,10 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFWKeyCallbackI;
 import org.lwjgl.opengl.GL;
 
+import entity.Player;
 import render.Camera;
 import render.Model;
 import render.Shader;
@@ -65,8 +67,11 @@ public class Component {
 //		
 //		Texture tex = new Texture("test.png");
 		
+		
 		World world = new World();
 		world.setTile(Tile.checker, 3, 2);
+		
+		Player player = new Player();
 		
 		Shader shader = new Shader("shader");
 		Matrix4f scale = new Matrix4f().translate(new Vector3f(0, 0, 0)).scale(16);
@@ -103,18 +108,9 @@ public class Component {
 					glfwSetWindowShouldClose(win.getWindow(), true);
 				}
 				
-				if(win.getInput().isKeyDown(GLFW_KEY_Q)) {
-					camera.getPosition().sub(new Vector3f(-1, 0, 0));
-				}
-				if(win.getInput().isKeyDown(GLFW_KEY_D)) {
-					camera.getPosition().sub(new Vector3f(1, 0, 0));
-				}
-				if(win.getInput().isKeyDown(GLFW_KEY_Z)) {
-					camera.getPosition().sub(new Vector3f(0, 1, 0));
-				}
-				if(win.getInput().isKeyDown(GLFW_KEY_S)) {
-					camera.getPosition().sub(new Vector3f(0, -1, 0));
-				}
+				
+				
+				player.update((float)frame_cap, win, camera, world);
 				
 				world.correctCamera(camera, win);
 				
@@ -131,6 +127,8 @@ public class Component {
 				
 				world.render(tiles, shader, camera, win);
 				
+				player.render(shader, camera);
+				
 				win.swapBuffers();
 				frames++;
 			}
@@ -139,7 +137,10 @@ public class Component {
 		glfwTerminate();
 		
 	}
-
+	
+	void keyCallback() {
+		
+	}
 	
 
 }
