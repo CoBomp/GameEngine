@@ -8,6 +8,7 @@ public class Tile {
 	public static Tile test = new Tile("grass");
 	public static Tile checker = new Tile("checker");
 	
+	public int collision;
 	private byte id;
 	private String texture;
 	

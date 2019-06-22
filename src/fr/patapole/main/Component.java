@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWKeyCallbackI;
 import org.lwjgl.opengl.GL;
 
@@ -23,9 +24,9 @@ public class Component {
 	public static int scale = 3;
 	public static int width = 720 / scale;
 	public static int height = 480 / scale;
-	
+	public static World world;
 	public long mainWindow;
-	
+	GLFWKeyCallback keyCallback;
 	boolean running = false;
 	public Component() {
 		Window.setCallbacks();
@@ -68,8 +69,15 @@ public class Component {
 //		Texture tex = new Texture("test.png");
 		
 		
-		World world = new World();
+		world = new World();
 		world.setTile(Tile.checker, 3, 2);
+
+		glfwSetKeyCallback(win.getWindow(), keyCallback = new GLFWKeyCallback(){
+		    @Override
+		    public void invoke (long window, int key, int scancode, int action, int mods) {
+		    	
+		    }
+		});
 		
 		Player player = new Player();
 		
